@@ -1,5 +1,5 @@
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
-import Sektion, { SektionsRubrik } from './Sektion';
+import Sektion, { Rubrik } from './Sektion';
 import { kund } from '../config/kund';
 import { telHref, epostHref } from '../lib/telefon';
 
@@ -8,61 +8,53 @@ export default function Kontakt() {
   const heltOmrade = [ort, ...omrade].join(' · ');
 
   return (
-    <Sektion id="kontakt" className="border-t border-white/10 !pt-16 sm:!pt-20">
-      <SektionsRubrik ogonbryn="Kontakt" rubrik="Hör av dig" />
+    <Sektion id="kontakt" ton="papper">
+      <Rubrik etikett="Kontakt">Hör av dig</Rubrik>
 
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        <Kort ikon={Phone} rubrik="Telefon">
-          <a
-            href={telHref(telefon)}
-            className="nummer text-lg font-bold text-white transition-colors hover:text-accent"
-          >
+      <dl className="grid border-l-2 border-t-2 border-blyerts sm:grid-cols-2 lg:grid-cols-4">
+        <Post ikon={Phone} term="Telefon">
+          <a href={telHref(telefon)} className="nummer text-xl hover:text-jour">
             {telefon}
           </a>
-          <p className="mt-1 text-sm text-sten">{oppettider}</p>
-        </Kort>
+          <p className="mt-1.5 text-sm text-grafit">{oppettider}</p>
+        </Post>
 
-        <Kort ikon={Mail} rubrik="E-post">
-          <a
-            href={epostHref(epost)}
-            className="break-all text-sten-ljus transition-colors hover:text-accent"
-          >
+        <Post ikon={Clock} term="Jour">
+          <p className="font-semibold">{jourtider}</p>
+          <p className="mt-1.5 text-sm text-grafit">Ring så rycker vi ut.</p>
+        </Post>
+
+        <Post ikon={Mail} term="E-post">
+          <a href={epostHref(epost)} className="break-all font-semibold hover:text-jour">
             {epost}
           </a>
-        </Kort>
+        </Post>
 
-        <Kort ikon={MapPin} rubrik="Vi jobbar i">
-          <p className="text-sten-ljus">{heltOmrade}</p>
-          {adress && <p className="mt-1 text-sm text-sten">{adress}</p>}
-        </Kort>
-
-        <Kort ikon={Clock} rubrik="Jour">
-          <p className="text-sten-ljus">{jourtider}</p>
-          <p className="mt-1 text-sm text-sten">Ring så rycker vi ut.</p>
-        </Kort>
-      </div>
+        <Post ikon={MapPin} term="Vi jobbar i">
+          <p className="font-semibold">{heltOmrade}</p>
+          {adress && <p className="mt-1.5 text-sm text-grafit">{adress}</p>}
+        </Post>
+      </dl>
     </Sektion>
   );
 }
 
-function Kort({
+function Post({
   ikon: Ikon,
-  rubrik,
+  term,
   children,
 }: {
   ikon: typeof Phone;
-  rubrik: string;
+  term: string;
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
-        <Ikon className="h-5 w-5 text-accent" strokeWidth={2.25} />
-      </div>
-      <h3 className="mb-2 font-display text-xs font-extrabold uppercase tracking-[0.14em] text-sten">
-        {rubrik}
-      </h3>
-      {children}
+    <div className="border-b-2 border-r-2 border-blyerts p-6">
+      <dt className="mb-4 flex items-center gap-2 font-display text-[0.7rem] uppercase tracking-skylt text-grafit">
+        <Ikon className="h-3.5 w-3.5 text-accent" strokeWidth={2.5} />
+        {term}
+      </dt>
+      <dd>{children}</dd>
     </div>
   );
 }

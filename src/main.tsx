@@ -7,7 +7,7 @@ import './index.css';
 
 tillampaTema();
 
-document.title = `${kund.foretag.namn} — ${kund.hero.ogonbryn}`;
+document.title = `${kund.foretag.namn} — ${kund.hero.etikett}`;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

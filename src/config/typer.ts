@@ -59,11 +59,10 @@ export type KundConfig = {
   tema: {
     accent: string;
     jour: string;
-    lage: 'morkt' | 'ljust';
   };
 
   hero: {
-    ogonbryn: string;
+    etikett: string;
     rubrik: string;
     ingress: string;
     bakgrundsbild: string;

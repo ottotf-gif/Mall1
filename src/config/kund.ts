@@ -24,13 +24,12 @@ export const kund: KundConfig = {
   },
 
   tema: {
-    accent: '#E8722C',
-    jour: '#D92D20',
-    lage: 'morkt',
+    accent: '#1B3A6B',
+    jour: '#D01C0F',
   },
 
   hero: {
-    ogonbryn: 'VVS & Rör i [ORT]',
+    etikett: 'VVS & Rör i [ORT]',
     rubrik: 'Din lokala *rörmokare* i [ORT]',
     ingress:
       'Vi utför alla typer av VVS-arbeten i [ORT] med omnejd. Fast pris innan vi börjar, garanti på allt vi gör.',

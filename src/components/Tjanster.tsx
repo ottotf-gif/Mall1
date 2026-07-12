@@ -1,4 +1,4 @@
-import Sektion, { SektionsRubrik } from './Sektion';
+import Sektion, { Rubrik } from './Sektion';
 import { kund } from '../config/kund';
 import { ikoner } from '../lib/ikoner';
 
@@ -6,38 +6,30 @@ export default function Tjanster() {
   const { rubrik, ingress, lista } = kund.tjanster;
 
   return (
-    <Sektion id="tjanster" ton="ljus">
-      <SektionsRubrik
-        ogonbryn="Våra tjänster"
-        rubrik={rubrik}
-        ingress={ingress}
-        ton="ljus"
-      />
+    <Sektion id="tjanster" ton="papper">
+      <Rubrik etikett="Tjänster" ingress={ingress}>
+        {rubrik}
+      </Rubrik>
 
-      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+      <div className="grid border-l-2 border-t-2 border-blyerts sm:grid-cols-2 lg:grid-cols-3">
         {lista.map((tjanst) => {
           const Ikon = ikoner[tjanst.ikon];
 
           return (
             <article
               key={tjanst.titel}
-              className="group relative rounded-2xl border border-ink/8 bg-paper-100 p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5"
+              className="group relative border-b-2 border-r-2 border-blyerts p-7 transition-colors hover:bg-kalk"
             >
               {tjanst.akut && (
-                <span className="absolute right-5 top-5 rounded-md bg-jour/10 px-2 py-1 font-display text-[0.65rem] font-extrabold uppercase tracking-wider text-jour">
+                <span className="absolute right-0 top-0 bg-jour px-2 py-1 font-display text-[0.65rem] uppercase tracking-skylt text-papper">
                   Jour
                 </span>
               )}
 
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 transition-colors duration-300 group-hover:bg-accent">
-                <Ikon
-                  className="h-6 w-6 text-accent transition-colors duration-300 group-hover:text-white"
-                  strokeWidth={2}
-                />
-              </div>
+              <Ikon className="h-7 w-7 text-accent" strokeWidth={1.75} />
 
-              <h3 className="mb-2 text-lg font-bold text-ink">{tjanst.titel}</h3>
-              <p className="text-[0.95rem] leading-relaxed text-sten">
+              <h3 className="mt-5 text-lg">{tjanst.titel}</h3>
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-grafit">
                 {tjanst.beskrivning}
               </p>
             </article>

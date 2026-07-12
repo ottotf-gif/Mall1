@@ -1,50 +1,59 @@
 import type { ReactNode } from 'react';
 
-type Props = {
-  id?: string;
-  ton?: 'ljus' | 'mork';
-  children: ReactNode;
-  className?: string;
+type Ton = 'papper' | 'kalk' | 'blyerts';
+
+const bakgrunder: Record<Ton, string> = {
+  papper: 'bg-papper text-blyerts',
+  kalk: 'bg-kalk text-blyerts',
+  blyerts: 'bg-blyerts text-papper',
 };
 
-export default function Sektion({ id, ton = 'mork', children, className = '' }: Props) {
-  const bakgrund = ton === 'ljus' ? 'bg-paper' : 'bg-ink';
-
+export default function Sektion({
+  id,
+  ton = 'papper',
+  children,
+  className = '',
+}: {
+  id?: string;
+  ton?: Ton;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <section id={id} className={`${bakgrund} py-20 sm:py-28 ${className}`}>
+    <section id={id} className={`${bakgrunder[ton]} py-20 sm:py-28 ${className}`}>
       <div className="mx-auto max-w-sida px-5 sm:px-8">{children}</div>
     </section>
   );
 }
 
-type RubrikProps = {
-  ogonbryn?: string;
-  rubrik: string;
-  ingress?: string;
-  ton?: 'ljus' | 'mork';
-  justering?: 'vanster' | 'center';
-};
-
-export function SektionsRubrik({
-  ogonbryn,
-  rubrik,
+export function Rubrik({
+  etikett,
+  children,
   ingress,
-  ton = 'mork',
-  justering = 'vanster',
-}: RubrikProps) {
-  const rubrikFarg = ton === 'ljus' ? 'text-ink' : 'text-white';
-  const ingressFarg = ton === 'ljus' ? 'text-sten' : 'text-sten-ljus';
-  const layout = justering === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl';
-
+  mork = false,
+}: {
+  etikett?: string;
+  children: string;
+  ingress?: string;
+  mork?: boolean;
+}) {
   return (
-    <div className={`mb-12 sm:mb-16 ${layout}`}>
-      {ogonbryn && (
-        <p className="mb-3 font-display text-xs font-bold uppercase tracking-[0.18em] text-accent">
-          {ogonbryn}
+    <div className="mb-12 max-w-2xl sm:mb-16">
+      {etikett && (
+        <p
+          className={`etikett mb-5 ${mork ? 'bg-papper text-blyerts' : 'bg-blyerts text-papper'}`}
+        >
+          {etikett}
         </p>
       )}
-      <h2 className={`text-3xl font-extrabold sm:text-4xl ${rubrikFarg}`}>{rubrik}</h2>
-      {ingress && <p className={`mt-4 text-lg leading-relaxed ${ingressFarg}`}>{ingress}</p>}
+      <h2 className="text-3xl leading-[1.05] sm:text-[2.75rem]">{children}</h2>
+      {ingress && (
+        <p
+          className={`mt-5 text-lg leading-relaxed ${mork ? 'text-grafit-ljus' : 'text-grafit'}`}
+        >
+          {ingress}
+        </p>
+      )}
     </div>
   );
 }

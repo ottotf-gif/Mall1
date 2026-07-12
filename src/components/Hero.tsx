@@ -1,15 +1,13 @@
-import { Phone, FileText } from 'lucide-react';
+import { Phone, ArrowRight } from 'lucide-react';
 import { kund } from '../config/kund';
 import { telHref } from '../lib/telefon';
 
-function Rubrik({ text }: { text: string }) {
-  const delar = text.split('*');
-
+function Rubriktext({ text }: { text: string }) {
   return (
-    <h1 className="text-4xl font-extrabold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
-      {delar.map((del, i) =>
+    <h1 className="text-[2.5rem] leading-[1] sm:text-6xl lg:text-[4rem]">
+      {text.split('*').map((del, i) =>
         i % 2 === 1 ? (
-          <span key={i} className="text-accent">
+          <span key={i} className="bg-jour box-decoration-clone px-2 text-papper">
             {del}
           </span>
         ) : (
@@ -20,58 +18,69 @@ function Rubrik({ text }: { text: string }) {
   );
 }
 
+const fakta: [string, string][] = [
+  ['Fast pris', 'innan vi börjar'],
+  ['Garanti', 'på allt arbete'],
+  ['Jour', 'dygnet runt'],
+];
+
 export default function Hero() {
-  const { ogonbryn, rubrik, ingress, bakgrundsbild } = kund.hero;
+  const { etikett, rubrik, ingress, bakgrundsbild } = kund.hero;
   const { telefon, ort } = kund.kontakt;
 
   return (
-    <section className="relative flex min-h-[88svh] items-end overflow-hidden bg-ink pt-24 sm:min-h-[92svh] sm:items-center">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bakgrundsbild})` }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-ink via-ink/70 to-ink"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-transparent"
-        aria-hidden="true"
-      />
+    <section className="bg-papper">
+      <div className="mx-auto grid max-w-sida lg:grid-cols-[1.05fr_1fr]">
+        <div className="order-2 px-5 py-14 sm:px-8 sm:py-20 lg:order-1 lg:border-r-2 lg:border-blyerts lg:py-24 lg:pr-14">
+          <p className="etikett mb-6">{etikett}</p>
 
-      <div className="relative mx-auto w-full max-w-sida px-5 pb-16 pt-10 sm:px-8 sm:py-28">
-        <div className="max-w-2xl animate-upp">
-          <p className="mb-4 font-display text-xs font-bold uppercase tracking-[0.18em] text-accent">
-            {ogonbryn}
-          </p>
+          <Rubriktext text={rubrik} />
 
-          <Rubrik text={rubrik} />
+          <p className="mt-7 max-w-lg text-lg leading-relaxed text-grafit">{ingress}</p>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-sten-ljus sm:text-xl">
-            {ingress}
-          </p>
-
-          <div className="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
-            <a
-              href={telHref(telefon)}
-              className="knapp bg-accent text-white shadow-lg shadow-accent/20 hover:bg-accent-hover sm:text-lg"
-            >
-              <Phone className="h-5 w-5" strokeWidth={2.5} />
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href={telHref(telefon)} className="knapp bg-jour text-papper hover:bg-jour-mork">
+              <Phone className="h-4 w-4" strokeWidth={2.5} />
               <span className="nummer">{telefon}</span>
             </a>
             <a
               href="#offert"
-              className="knapp border-2 border-white/20 text-white hover:border-white/40 hover:bg-white/5 sm:text-lg"
+              className="knapp border-2 border-blyerts hover:bg-blyerts hover:text-papper"
             >
-              <FileText className="h-5 w-5" strokeWidth={2.5} />
               Begär offert
+              <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
             </a>
           </div>
 
-          <p className="mt-6 text-sm text-sten">
-            Kostnadsfri offert · Fast pris · Garanti · {ort} med omnejd
-          </p>
+          <dl className="mt-12 grid max-w-lg grid-cols-3 border-2 border-blyerts">
+            {fakta.map(([term, forklaring], i) => (
+              <div
+                key={term}
+                className={`px-3 py-4 sm:px-4 ${i < fakta.length - 1 ? 'border-r-2 border-blyerts' : ''}`}
+              >
+                <dt className="font-display text-xs uppercase tracking-skylt sm:text-sm">
+                  {term}
+                </dt>
+                <dd className="mt-1 text-xs leading-snug text-grafit sm:text-sm">
+                  {forklaring}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <p className="mt-6 text-sm font-semibold text-grafit">{ort} med omnejd</p>
+        </div>
+
+        <div className="relative order-1 min-h-[15rem] sm:min-h-[20rem] lg:order-2 lg:min-h-[40rem]">
+          <img
+            src={bakgrundsbild}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div
+            className="tejp absolute inset-x-0 bottom-0 h-2.5 bg-papper"
+            aria-hidden="true"
+          />
         </div>
       </div>
     </section>

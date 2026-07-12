@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,46 +6,68 @@
 
 @layer base {
   :root {
-    --accent: 232 114 44;
-    --accent-hover: 199 98 38;
-    --jour: 217 45 32;
-    --jour-hover: 187 39 28;
+    --accent: 27 58 107;
+    --accent-mork: 18 39 72;
+    --jour: 208 28 15;
+    --jour-mork: 168 22 12;
   }
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 4.5rem;
   }
 
   body {
-    @apply bg-ink font-sans text-base antialiased;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  :focus-visible {
-    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-ink;
+    font-family: 'Barlow', system-ui, sans-serif;
+    background-color: #F7F5F1;
+    color: #141719;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
   h3 {
-    @apply font-display tracking-tight;
-    text-wrap: balance;
+    font-family: 'Archivo Black', Impact, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
   }
 
-  p {
-    text-wrap: pretty;
+  :focus-visible {
+    @apply outline-none ring-2 ring-offset-2;
+    --tw-ring-color: #141719;
   }
 }
 
 @layer components {
   .nummer {
     font-variant-numeric: tabular-nums;
-    @apply font-display;
+    font-family: 'Archivo Black', Impact, sans-serif;
+    letter-spacing: -0.02em;
   }
 
   .knapp {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-xl px-6 py-4 font-display text-base font-bold transition-all duration-200 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm transition-colors duration-150;
+    font-family: 'Archivo Black', Impact, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .etikett {
+    @apply inline-block px-2.5 py-1 text-[0.7rem];
+    font-family: 'Archivo Black', Impact, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    background-color: #141719;
+    color: #F7F5F1;
+  }
+
+  .tejp {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #141719 0 12px,
+      transparent 12px 24px
+    );
   }
 }
 

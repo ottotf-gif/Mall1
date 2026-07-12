@@ -1,4 +1,4 @@
-import { Phone, Check } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { kund } from '../config/kund';
 import { telHref } from '../lib/telefon';
 
@@ -7,42 +7,24 @@ export default function Jour() {
   const { telefon, jourtider } = kund.kontakt;
 
   return (
-    <section className="relative overflow-hidden bg-jour">
-      <div
-        className="absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            'repeating-linear-gradient(45deg, transparent 0 14px, #000 14px 28px)',
-        }}
-        aria-hidden="true"
-      />
+    <section className="bg-jour text-papper">
+      <div className="tejp h-3 bg-jour" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-sida px-5 py-12 sm:px-8 sm:py-16">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto max-w-sida px-5 py-14 sm:px-8 sm:py-20">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16">
           <div>
-            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-black/20 px-3.5 py-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-puls rounded-full bg-white" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-              </span>
-              <span className="font-display text-xs font-bold uppercase tracking-[0.14em] text-white">
-                Jour · {jourtider}
-              </span>
-            </div>
+            <p className="etikett mb-6 bg-papper text-jour">Jour · {jourtider}</p>
 
-            <h2 className="text-3xl font-extrabold leading-[1.1] text-white sm:text-4xl lg:text-[2.75rem]">
-              {rubrik}
-            </h2>
+            <h2 className="text-3xl leading-[1.05] sm:text-[2.5rem]">{rubrik}</h2>
 
-            <p className="mt-4 max-w-md text-lg leading-relaxed text-white/85">{text}</p>
+            <p className="mt-5 max-w-md text-lg leading-relaxed text-papper/85">{text}</p>
 
-            <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2.5">
+            <ul className="mt-8 border-t border-papper/25">
               {loften.map((lofte) => (
                 <li
                   key={lofte}
-                  className="flex items-center gap-2 text-sm font-semibold text-white"
+                  className="border-b border-papper/25 py-3 font-display text-sm uppercase tracking-skylt"
                 >
-                  <Check className="h-4 w-4 shrink-0 text-white/70" strokeWidth={3} />
                   {lofte}
                 </li>
               ))}
@@ -51,19 +33,21 @@ export default function Jour() {
 
           <a
             href={telHref(telefon)}
-            className="group block rounded-3xl bg-white p-7 shadow-2xl shadow-black/25 transition-transform duration-200 hover:-translate-y-1 active:scale-[0.99] sm:p-9"
+            className="block bg-papper text-blyerts transition-colors hover:bg-white"
           >
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5 border-b-2 border-blyerts px-6 py-4 sm:px-8">
               <Phone className="h-4 w-4 text-jour" strokeWidth={3} />
-              <span className="font-display text-xs font-extrabold uppercase tracking-[0.16em] text-jour">
-                Ring nu
+              <span className="font-display text-xs uppercase tracking-skylt">
+                Ring nu — vi svarar
               </span>
             </div>
 
-            <p className="nummer mt-3 text-nummer font-extrabold text-ink">{telefon}</p>
+            <div className="px-6 py-8 sm:px-8 sm:py-10">
+              <p className="nummer text-nummer">{telefon}</p>
+            </div>
 
-            <p className="mt-4 border-t border-ink/10 pt-4 text-sm font-medium text-sten">
-              Vi svarar direkt. Ingen växel, ingen kö — du pratar med hantverkaren.
+            <p className="border-t-2 border-blyerts px-6 py-4 text-sm font-semibold text-grafit sm:px-8">
+              Ingen växel, ingen kö. Du pratar med hantverkaren.
             </p>
           </a>
         </div>

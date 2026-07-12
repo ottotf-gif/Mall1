@@ -34,8 +34,8 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-offset-2;
-    --tw-ring-color: #141719;
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #141719;
   }
 }
 
@@ -47,15 +47,23 @@
   }
 
   .knapp {
-    @apply inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm transition-colors duration-150;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    padding: 1rem 1.75rem;
     font-family: 'Archivo Black', Impact, sans-serif;
+    font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: -0.02em;
+    transition: color 150ms, background-color 150ms;
   }
 
   .etikett {
-    @apply inline-block px-2.5 py-1 text-[0.7rem];
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
     font-family: 'Archivo Black', Impact, sans-serif;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: -0.02em;
     background-color: #141719;

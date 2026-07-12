@@ -1,0 +1,120 @@
+/**
+ * Typer för kundkonfigurationen.
+ * Rör normalt inte den här filen — det är kund.ts du redigerar per kund.
+ */
+
+/** Ikonnamn som finns tillgängliga. Se lib/ikoner.ts för hela listan. */
+export type IkonNamn =
+  | 'droppe'
+  | 'badkar'
+  | 'varme'
+  | 'avlopp'
+  | 'skiftnyckel'
+  | 'skold'
+  | 'hammare'
+  | 'sag'
+  | 'tegel'
+  | 'ritning'
+  | 'malarrulle'
+  | 'tak'
+  | 'karta'
+  | 'blixt'
+  | 'dokument'
+  | 'stjarna'
+  | 'klocka';
+
+export type Tjanst = {
+  ikon: IkonNamn;
+  titel: string;
+  beskrivning: string;
+  /** Sätt true om tjänsten är ett akutärende — visas då som jouralternativ i offertformuläret. */
+  akut?: boolean;
+};
+
+export type Referens = {
+  bild: string;
+  titel: string;
+  ort: string;
+  /** Valfri rad, t.ex. "3 veckor" eller "Villa, 140 kvm". Visas under titeln. */
+  detalj?: string;
+};
+
+export type Fordel = {
+  ikon: IkonNamn;
+  titel: string;
+  beskrivning: string;
+};
+
+export type KundConfig = {
+  foretag: {
+    namn: string;
+    /** Kort tagline i headern under logotypen. Håll den under ~40 tecken. */
+    slogan: string;
+    /** 1–2 bokstäver till logotypmärket. */
+    initialer: string;
+    orgnr: string;
+    /** Visas i footern, t.ex. "Godkänd för F-skatt · Säker Vatten-certifierad" */
+    certifieringar: string[];
+  };
+
+  kontakt: {
+    /** Skriv exakt som det ska visas. tel:-länken städas automatiskt. */
+    telefon: string;
+    epost: string;
+    /** Huvudort. Används i rubriker och SEO-text. */
+    ort: string;
+    /** Övriga orter i upptagningsområdet. */
+    omrade: string[];
+    adress?: string;
+    oppettider: string;
+    jourtider: string;
+  };
+
+  tema: {
+    /** Företagets profilfärg. Används på knappar, ikoner och accenter. */
+    accent: string;
+    /**
+     * Jourfärgen. Håll den röd/varningsfärgad även om accenten är blå —
+     * jour-sektionen ska signalera akut, inte varumärke.
+     */
+    jour: string;
+  };
+
+  hero: {
+    /** Liten etikett ovanför rubriken, t.ex. "VVS & Rör i Uddevalla". */
+    etikett: string;
+    /** Rubriken. Använd *stjärnor* runt ordet som ska få accentfärg. */
+    rubrik: string;
+    ingress: string;
+    bakgrundsbild: string;
+  };
+
+  jour: {
+    rubrik: string;
+    text: string;
+    /** Kort punktlista, t.ex. "Inom 60 min", "Dygnet runt". Max 3. */
+    loften: string[];
+  };
+
+  tjanster: {
+    rubrik: string;
+    ingress: string;
+    lista: Tjanst[];
+  };
+
+  varfor: {
+    rubrik: string;
+    lista: Fordel[];
+  };
+
+  referenser: {
+    rubrik: string;
+    ingress: string;
+    lista: Referens[];
+  };
+
+  offert: {
+    rubrik: string;
+    ingress: string;
+  };
+};

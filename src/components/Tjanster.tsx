@@ -1,68 +1,49 @@
-import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import Sektion, { SektionsRubrik } from './Sektion';
 import { kund } from '../config/kund';
-import { telHref, epostHref } from '../lib/telefon';
+import { ikoner } from '../lib/ikoner';
 
-export default function Kontakt() {
-  const { telefon, epost, ort, omrade, adress, oppettider, jourtider } = kund.kontakt;
-  const heltOmrade = [ort, ...omrade].join(' · ');
+export default function Tjanster() {
+  const { rubrik, ingress, lista } = kund.tjanster;
 
   return (
-    <Sektion id="kontakt" className="border-t border-white/10 !pt-16 sm:!pt-20">
-      <SektionsRubrik ogonbryn="Kontakt" rubrik="Hör av dig" />
+    <Sektion id="tjanster" ton="ljus">
+      <SektionsRubrik
+        ogonbryn="Våra tjänster"
+        rubrik={rubrik}
+        ingress={ingress}
+        ton="ljus"
+      />
 
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        <Kort ikon={Phone} rubrik="Telefon">
-          <a
-            href={telHref(telefon)}
-            className="nummer text-lg font-bold text-white transition-colors hover:text-accent"
-          >
-            {telefon}
-          </a>
-          <p className="mt-1 text-sm text-sten">{oppettider}</p>
-        </Kort>
+      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        {lista.map((tjanst) => {
+          const Ikon = ikoner[tjanst.ikon];
 
-        <Kort ikon={Mail} rubrik="E-post">
-          <a
-            href={epostHref(epost)}
-            className="break-all text-sten-ljus transition-colors hover:text-accent"
-          >
-            {epost}
-          </a>
-        </Kort>
+          return (
+            <article
+              key={tjanst.titel}
+              className="group relative rounded-2xl border border-ink/8 bg-paper-100 p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5"
+            >
+              {tjanst.akut && (
+                <span className="absolute right-5 top-5 rounded-md bg-jour/10 px-2 py-1 font-display text-[0.65rem] font-extrabold uppercase tracking-wider text-jour">
+                  Jour
+                </span>
+              )}
 
-        <Kort ikon={MapPin} rubrik="Vi jobbar i">
-          <p className="text-sten-ljus">{heltOmrade}</p>
-          {adress && <p className="mt-1 text-sm text-sten">{adress}</p>}
-        </Kort>
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 transition-colors duration-300 group-hover:bg-accent">
+                <Ikon
+                  className="h-6 w-6 text-accent transition-colors duration-300 group-hover:text-white"
+                  strokeWidth={2}
+                />
+              </div>
 
-        <Kort ikon={Clock} rubrik="Jour">
-          <p className="text-sten-ljus">{jourtider}</p>
-          <p className="mt-1 text-sm text-sten">Ring så rycker vi ut.</p>
-        </Kort>
+              <h3 className="mb-2 text-lg font-bold text-ink">{tjanst.titel}</h3>
+              <p className="text-[0.95rem] leading-relaxed text-sten">
+                {tjanst.beskrivning}
+              </p>
+            </article>
+          );
+        })}
       </div>
     </Sektion>
-  );
-}
-
-function Kort({
-  ikon: Ikon,
-  rubrik,
-  children,
-}: {
-  ikon: typeof Phone;
-  rubrik: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
-        <Ikon className="h-5 w-5 text-accent" strokeWidth={2.25} />
-      </div>
-      <h3 className="mb-2 font-display text-xs font-extrabold uppercase tracking-[0.14em] text-sten">
-        {rubrik}
-      </h3>
-      {children}
-    </div>
   );
 }

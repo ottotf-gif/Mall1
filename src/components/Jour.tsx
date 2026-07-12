@@ -1,76 +1,73 @@
+import { Phone, Check } from 'lucide-react';
 import { kund } from '../config/kund';
-import { navLankar } from '../lib/navigering';
+import { telHref } from '../lib/telefon';
 
-export default function Footer() {
-  const { namn, initialer, orgnr, certifieringar } = kund.foretag;
-  const ar = new Date().getFullYear();
+export default function Jour() {
+  const { rubrik, text, loften } = kund.jour;
+  const { telefon, jourtider } = kund.kontakt;
 
   return (
-    <footer className="border-t border-white/10 bg-ink-800">
-      <div className="mx-auto max-w-sida px-5 py-14 sm:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr]">
-          {/* Företaget */}
+    <section className="relative overflow-hidden bg-jour">
+      <div
+        className="absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(45deg, transparent 0 14px, #000 14px 28px)',
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-sida px-5 py-12 sm:px-8 sm:py-16">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-display text-xs font-extrabold text-white">
-                {initialer}
+            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-black/20 px-3.5 py-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-puls rounded-full bg-white" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
               </span>
-              <span className="font-display font-extrabold text-white">{namn}</span>
+              <span className="font-display text-xs font-bold uppercase tracking-[0.14em] text-white">
+                Jour · {jourtider}
+              </span>
             </div>
 
-            <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2">
-              {certifieringar.map((cert) => (
+            <h2 className="text-3xl font-extrabold leading-[1.1] text-white sm:text-4xl lg:text-[2.75rem]">
+              {rubrik}
+            </h2>
+
+            <p className="mt-4 max-w-md text-lg leading-relaxed text-white/85">{text}</p>
+
+            <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2.5">
+              {loften.map((lofte) => (
                 <li
-                  key={cert}
-                  className="rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-sten-ljus"
+                  key={lofte}
+                  className="flex items-center gap-2 text-sm font-semibold text-white"
                 >
-                  {cert}
+                  <Check className="h-4 w-4 shrink-0 text-white/70" strokeWidth={3} />
+                  {lofte}
                 </li>
               ))}
             </ul>
-
-            <p className="mt-5 text-sm text-sten">Org.nr {orgnr}</p>
           </div>
 
-          {/* Navigering */}
-          <nav>
-            <h2 className="mb-4 font-display text-xs font-extrabold uppercase tracking-[0.14em] text-sten">
-              Genvägar
-            </h2>
-            <ul className="space-y-2.5">
-              {navLankar.map((lank) => (
-                <li key={lank.href}>
-                  <a
-                    href={lank.href}
-                    className="text-sm text-sten-ljus transition-colors hover:text-white"
-                  >
-                    {lank.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+          <a
+            href={telHref(telefon)}
+            className="group block rounded-3xl bg-white p-7 shadow-2xl shadow-black/25 transition-transform duration-200 hover:-translate-y-1 active:scale-[0.99] sm:p-9"
+          >
+            <div className="flex items-center gap-2.5">
+              <Phone className="h-4 w-4 text-jour" strokeWidth={3} />
+              <span className="font-display text-xs font-extrabold uppercase tracking-[0.16em] text-jour">
+                Ring nu
+              </span>
+            </div>
 
-        {/* Botten. Extra bottenmarginal på mobil så den fasta
-            ringknappen inte täcker byline. */}
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-7 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-sten">
-            © {ar} {namn}
-          </p>
-          <p className="pb-20 text-sm text-sten md:pb-0">
-            Drivs av{' '}
-            <a
-              href="https://ottoniq.se"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-sten-ljus transition-colors hover:text-accent"
-            >
-              Ottoniq.se
-            </a>
-          </p>
+            <p className="nummer mt-3 text-nummer font-extrabold text-ink">{telefon}</p>
+
+            <p className="mt-4 border-t border-ink/10 pt-4 text-sm font-medium text-sten">
+              Vi svarar direkt. Ingen växel, ingen kö — du pratar med hantverkaren.
+            </p>
+          </a>
         </div>
       </div>
-    </footer>
+    </section>
   );
 }

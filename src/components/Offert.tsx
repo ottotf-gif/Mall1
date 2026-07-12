@@ -1,50 +1,177 @@
+import { useState } from 'react';
+import { Send, CheckCircle2, Phone } from 'lucide-react';
 import Sektion, { SektionsRubrik } from './Sektion';
 import { kund } from '../config/kund';
-import { ikoner } from '../lib/ikoner';
+import { telHref } from '../lib/telefon';
 
-export default function Tjanster() {
-  const { rubrik, ingress, lista } = kund.tjanster;
+export default function Offert() {
+  const [skickat, setSkickat] = useState(false);
+
+  const { rubrik, ingress } = kund.offert;
+  const { telefon } = kund.kontakt;
+  const jobbtyper = kund.tjanster.lista.map((t) => t.titel);
+
+  function handleSkicka(e: React.FormEvent) {
+    e.preventDefault();
+    setSkickat(true);
+  }
+
+  if (skickat) {
+    return (
+      <Sektion id="offert">
+        <div className="mx-auto max-w-md py-8 text-center">
+          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-accent/15">
+            <CheckCircle2 className="h-7 w-7 text-accent" strokeWidth={2.25} />
+          </div>
+          <h2 className="text-2xl font-extrabold text-white">Tack — vi hörde dig</h2>
+          <p className="mt-3 leading-relaxed text-sten-ljus">
+            Vi återkommer med en offert inom ett dygn. Är det bråttom, ring så tar vi
+            det direkt.
+          </p>
+          <a
+            href={telHref(telefon)}
+            className="knapp mt-7 bg-jour text-white hover:bg-jour-hover"
+          >
+            <Phone className="h-5 w-5" strokeWidth={2.5} />
+            <span className="nummer">{telefon}</span>
+          </a>
+        </div>
+      </Sektion>
+    );
+  }
 
   return (
-    <Sektion id="tjanster" ton="ljus">
-      <SektionsRubrik
-        ogonbryn="Våra tjänster"
-        rubrik={rubrik}
-        ingress={ingress}
-        ton="ljus"
-      />
+    <Sektion id="offert">
+      <div className="mx-auto max-w-xl">
+        <SektionsRubrik
+          ogonbryn="Kostnadsfri offert"
+          rubrik={rubrik}
+          ingress={ingress}
+          justering="center"
+        />
 
-      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        {lista.map((tjanst) => {
-          const Ikon = ikoner[tjanst.ikon];
+        <form onSubmit={handleSkicka} className="space-y-5">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Falt id="namn" etikett="Namn" placeholder="Ditt namn" obligatorisk />
+            <Falt
+              id="telefon"
+              etikett="Telefon"
+              typ="tel"
+              placeholder="070-123 45 67"
+              obligatorisk
+            />
+          </div>
 
-          return (
-            <article
-              key={tjanst.titel}
-              className="group relative rounded-2xl border border-ink/8 bg-paper-100 p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5"
+          <div>
+            <Etikett htmlFor="jobbtyp">Vad gäller det?</Etikett>
+            <select
+              id="jobbtyp"
+              required
+              defaultValue=""
+              className="w-full appearance-none rounded-xl border border-white/10 bg-ink-800 px-4 py-3.5 text-white transition-colors focus:border-accent"
             >
-              {/* Akuta tjänster märks ut — de är de som konverterar */}
-              {tjanst.akut && (
-                <span className="absolute right-5 top-5 rounded-md bg-jour/10 px-2 py-1 font-display text-[0.65rem] font-extrabold uppercase tracking-wider text-jour">
-                  Jour
-                </span>
-              )}
+              <option value="" disabled>
+                Välj typ av jobb …
+              </option>
+              {jobbtyper.map((typ) => (
+                <option key={typ} value={typ}>
+                  {typ}
+                </option>
+              ))}
+              <option value="Annat">Annat</option>
+            </select>
+          </div>
 
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 transition-colors duration-300 group-hover:bg-accent">
-                <Ikon
-                  className="h-6 w-6 text-accent transition-colors duration-300 group-hover:text-white"
-                  strokeWidth={2}
-                />
-              </div>
+          <div>
+            <Etikett htmlFor="meddelande" valfritt>
+              Kort om jobbet
+            </Etikett>
+            <textarea
+              id="meddelande"
+              rows={3}
+              placeholder="Beskriv gärna kort vad du behöver hjälp med."
+              className="w-full resize-none rounded-xl border border-white/10 bg-ink-800 px-4 py-3.5 text-white placeholder-sten transition-colors focus:border-accent"
+            />
+          </div>
 
-              <h3 className="mb-2 text-lg font-bold text-ink">{tjanst.titel}</h3>
-              <p className="text-[0.95rem] leading-relaxed text-sten">
-                {tjanst.beskrivning}
-              </p>
-            </article>
-          );
-        })}
+          <div>
+            <Etikett htmlFor="epost" valfritt>
+              E-post
+            </Etikett>
+            <input
+              id="epost"
+              type="email"
+              placeholder="din@epost.se"
+              className="w-full rounded-xl border border-white/10 bg-ink-800 px-4 py-3.5 text-white placeholder-sten transition-colors focus:border-accent"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="knapp w-full bg-accent text-white hover:bg-accent-hover sm:text-lg"
+          >
+            <Send className="h-5 w-5" strokeWidth={2.5} />
+            Skicka förfrågan
+          </button>
+
+          <p className="text-center text-sm text-sten">
+            Har du bråttom?{' '}
+            <a
+              href={telHref(telefon)}
+              className="font-semibold text-accent underline-offset-4 hover:underline"
+            >
+              Ring {telefon} istället
+            </a>
+          </p>
+        </form>
       </div>
     </Sektion>
+  );
+}
+
+function Etikett({
+  htmlFor,
+  valfritt,
+  children,
+}: {
+  htmlFor: string;
+  valfritt?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="mb-2 block text-sm font-semibold text-sten-ljus"
+    >
+      {children}
+      {valfritt && <span className="ml-1.5 font-normal text-sten">(valfritt)</span>}
+    </label>
+  );
+}
+
+function Falt({
+  id,
+  etikett,
+  typ = 'text',
+  placeholder,
+  obligatorisk,
+}: {
+  id: string;
+  etikett: string;
+  typ?: string;
+  placeholder?: string;
+  obligatorisk?: boolean;
+}) {
+  return (
+    <div>
+      <Etikett htmlFor={id}>{etikett}</Etikett>
+      <input
+        id={id}
+        type={typ}
+        required={obligatorisk}
+        placeholder={placeholder}
+        className="w-full rounded-xl border border-white/10 bg-ink-800 px-4 py-3.5 text-white placeholder-sten transition-colors focus:border-accent"
+      />
+    </div>
   );
 }

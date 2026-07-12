@@ -1,41 +1,49 @@
+import Sektion, { SektionsRubrik } from './Sektion';
 import { kund } from '../config/kund';
-import { ikoner } from '../lib/ikoner';
 
-/**
- * Egen bakgrund (paper-200) istället för Sektion-skalet, så att
- * den läser som ett eget band mellan tjänster och referenser
- * utan att bryta den ljusa blocket i två.
- */
-export default function Varfor() {
-  const { rubrik, lista } = kund.varfor;
+export default function Referenser() {
+  const { rubrik, ingress, lista } = kund.referenser;
 
   return (
-    <section id="om-oss" className="border-y border-ink/8 bg-paper-200 py-16 sm:py-20">
-      <div className="mx-auto max-w-sida px-5 sm:px-8">
-        <h2 className="mb-10 font-display text-xs font-extrabold uppercase tracking-[0.18em] text-sten">
-          {rubrik}
-        </h2>
+    <Sektion id="referenser" ton="ljus" className="!pt-16 sm:!pt-20">
+      <SektionsRubrik
+        ogonbryn="Referenser"
+        rubrik={rubrik}
+        ingress={ingress}
+        ton="ljus"
+      />
 
-        <div className="grid gap-10 sm:gap-8 md:grid-cols-3">
-          {lista.map((fordel) => {
-            const Ikon = ikoner[fordel.ikon];
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {lista.map((referens) => (
+          <figure
+            key={referens.titel + referens.ort}
+            className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-ink"
+          >
+            <img
+              src={referens.bild}
+              alt={`${referens.titel}, ${referens.ort}`}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent opacity-85"
+              aria-hidden="true"
+            />
 
-            return (
-              <div key={fordel.titel} className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-ink">
-                  <Ikon className="h-5 w-5 text-accent" strokeWidth={2.25} />
-                </div>
-                <div>
-                  <h3 className="mb-1.5 text-lg font-bold text-ink">{fordel.titel}</h3>
-                  <p className="text-[0.95rem] leading-relaxed text-sten">
-                    {fordel.beskrivning}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+            <figcaption className="absolute inset-x-0 bottom-0 p-5">
+              {referens.detalj && (
+                <p className="mb-1 font-display text-[0.7rem] font-bold uppercase tracking-[0.14em] text-accent">
+                  {referens.detalj}
+                </p>
+              )}
+              <h3 className="text-lg font-bold leading-tight text-white">
+                {referens.titel}
+              </h3>
+              <p className="mt-0.5 text-sm text-white/60">{referens.ort}</p>
+            </figcaption>
+          </figure>
+        ))}
       </div>
-    </section>
+    </Sektion>
   );
 }

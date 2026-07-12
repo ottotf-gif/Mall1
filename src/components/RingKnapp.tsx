@@ -1,77 +1,23 @@
-/** @type {import('tailwindcss').Config} */
+import { Phone } from 'lucide-react';
+import { kund } from '../config/kund';
+import { telHref } from '../lib/telefon';
 
-/**
- * Färgerna accent och jour kommer från kund.ts via CSS-variabler
- * (se src/lib/tema.ts). Rör dem inte här — ändra i kund.ts istället.
- *
- * Grundfärgerna (ink, paper, sten) är samma för alla kunder.
- * De är mallens skelett, inte kundens varumärke.
- */
-const medOpacitet = (variabel) => `rgb(var(${variabel}) / <alpha-value>)`;
+export default function RingKnapp() {
+  const { telefon } = kund.kontakt;
 
-export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  theme: {
-    extend: {
-      colors: {
-        // Sätts per kund
-        accent: {
-          DEFAULT: medOpacitet('--accent'),
-          hover: medOpacitet('--accent-hover'),
-        },
-        jour: {
-          DEFAULT: medOpacitet('--jour'),
-          hover: medOpacitet('--jour-hover'),
-        },
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-50 md:hidden">
+      <div className="h-6 bg-gradient-to-t from-ink/90 to-transparent" />
 
-        // Mallens skelett
-        ink: {
-          DEFAULT: '#14181C',
-          800: '#1B2126',
-          700: '#232A31',
-          600: '#2E373F',
-        },
-        paper: {
-          DEFAULT: '#F6F4F1',
-          100: '#FFFFFF',
-          200: '#EDEAE5',
-        },
-        sten: {
-          DEFAULT: '#6E7781',
-          ljus: '#9AA3AD',
-          mork: '#4A525A',
-        },
-      },
-
-      fontFamily: {
-        display: ['Archivo', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
-
-      fontSize: {
-        // Telefonnumret i jour-sektionen — mallens tyngsta typografi
-        nummer: ['clamp(2.25rem, 9vw, 4.5rem)', { lineHeight: '1', letterSpacing: '-0.03em' }],
-      },
-
-      maxWidth: {
-        sida: '76rem',
-      },
-
-      keyframes: {
-        puls: {
-          '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-          '50%': { opacity: '0.4', transform: 'scale(1.6)' },
-        },
-        upp: {
-          from: { opacity: '0', transform: 'translateY(16px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-      },
-      animation: {
-        puls: 'puls 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        upp: 'upp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both',
-      },
-    },
-  },
-  plugins: [],
-};
+      <div className="bg-ink/95 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md">
+        <a
+          href={telHref(telefon)}
+          className="flex w-full items-center justify-center gap-3 rounded-2xl bg-jour py-4 font-display text-lg font-extrabold text-white shadow-lg shadow-jour/30 transition-transform active:scale-[0.98]"
+        >
+          <Phone className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+          <span className="nummer">{telefon}</span>
+        </a>
+      </div>
+    </div>
+  );
+}
